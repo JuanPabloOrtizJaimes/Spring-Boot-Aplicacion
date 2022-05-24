@@ -14,8 +14,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.validation.annotation.Validated;
 
 @Entity
 public class User implements Serializable {
@@ -23,6 +27,7 @@ public class User implements Serializable {
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 8210015390632592959L;
 
 	@Id
@@ -30,18 +35,26 @@ public class User implements Serializable {
 	@GenericGenerator(name = "native",strategy = "native")
 	private Long id;
 	@Column
+	@NotBlank
 	private String firstName;
 	@Column
+	@NotBlank
 	private String lastName;
 	@Column
+	@NotBlank
 	private String email;
 	@Column
+	@NotBlank
 	private String username;
 	@Column
+	@NotBlank
+	@NotNull
 	private String password;
 	@Transient
+	@NotBlank
 	private String confirmPassword;
 	
+	@Size(min = 1)
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_roles",
 			joinColumns = @JoinColumn(name="user_id"),
