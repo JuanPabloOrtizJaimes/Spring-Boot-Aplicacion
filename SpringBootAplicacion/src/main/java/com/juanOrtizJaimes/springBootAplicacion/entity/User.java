@@ -19,7 +19,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.validation.annotation.Validated;
 
 @Entity
 public class User implements Serializable {
