@@ -51,7 +51,6 @@ public class User implements Serializable {
 	@NotNull
 	private String password;
 	@Transient
-	@NotBlank
 	private String confirmPassword;
 	
 	@Size(min = 1)
