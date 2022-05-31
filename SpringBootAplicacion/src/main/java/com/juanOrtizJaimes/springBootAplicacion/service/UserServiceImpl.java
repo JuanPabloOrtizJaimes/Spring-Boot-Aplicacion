@@ -3,6 +3,7 @@ package com.juanOrtizJaimes.springBootAplicacion.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.juanOrtizJaimes.springBootAplicacion.dto.ChangePasswordForm;
 import com.juanOrtizJaimes.springBootAplicacion.entity.User;
+import com.juanOrtizJaimes.springBootAplicacion.exception.UsernameOrIdNotFound;
 import com.juanOrtizJaimes.springBootAplicacion.repository.UserRepository;
 
 @Service
@@ -56,8 +58,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getUserById(Long id) throws Exception {
-		return repository.findById(id).orElseThrow(()->new Exception("El usuario no existe"));
+	public User getUserById(Long id) throws UsernameOrIdNotFound {
+		return repository.findById(id).orElseThrow(()->new UsernameOrIdNotFound("El Id del usuario no existe"));
 	}
 
 	@Override
@@ -77,7 +79,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteUser(Long id) throws Exception {
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+	public void deleteUser(Long id) throws UsernameOrIdNotFound {
 		User user=getUserById(id);
 		repository.delete(user);
 	}
